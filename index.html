@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css" rel="stylesheet">
+    <!-- إضافة مكتبة EmailJS -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <style>
         html {
             scroll-behavior: smooth;
         }
+
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             position: relative;
-            background: #000; /* Black background for code symbols */
+            background: #000;
         }
+
         canvas#bgCanvas {
             position: fixed;
             top: 0;
@@ -28,82 +34,144 @@
             height: 100%;
             z-index: -1;
         }
+
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent */
+            background-color: rgba(0, 0, 0, 0.9);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             animation: float 3s ease-in-out infinite;
         }
+
+        .navbar .nav-links {
+            display: flex;
+            justify-content: center;
+            space-x-4;
+        }
+
         .navbar a {
-            color: #ffffff; /* White text */
+            color: #ffffff;
             padding: 1rem;
             text-decoration: none;
             font-size: 0.9rem;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
         }
+
         .navbar a:hover {
-            color: #3b82f6; /* Light blue on hover */
+            color: #3b82f6;
         }
+
+        .navbar a.active {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            color: #ffffff;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
         .section-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #1d4ed8;
+            color: #02569B;
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             animation: float 3s ease-in-out infinite;
         }
+
         .section-title:hover {
-            color: #2563eb;
+            color: #04C4B4;
             transform: translateY(-2px);
         }
+
         .subtitle-dot {
             width: 12px;
             height: 12px;
-            background-color: #1d4ed8;
+            background-color: #04C4B4;
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 10px rgba(4, 196, 180, 0.8), 0 0 20px rgba(4, 196, 180, 0.5);
             animation: float 3s ease-in-out infinite;
             display: inline-block;
             margin-right: 0.5rem;
         }
+
         .card {
             background-color: rgba(59, 130, 246, 0.1);
             border: 2px solid #3b82f6;
             border-radius: 20px 10px;
-            padding: 2rem; /* Larger padding */
-            min-height: 200px; /* Larger cards */
+            padding: 2rem;
+            min-height: 200px;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             backdrop-filter: blur(5px);
             cursor: pointer;
+            position: relative;
         }
+
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(59, 130, 246, 0.2);
         }
+
+        .project-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
         .header-img {
-            border: 4px solid #1d4ed8;
+            border: 4px solid #02569B;
             border-radius: 50%;
             width: 200px;
             height: 200px;
             object-fit: cover;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(29, 78, 216, 0.8), 0 0 20px rgba(29, 78, 216, 0.5);
+            animation: pulse 2s infinite, float 3s ease-in-out infinite;
         }
-        .contact-icon {
+
+        .contact-icon,
+        .footer-icon {
             color: #ffffff;
             transition: color 0.3s ease, transform 0.3s ease;
         }
-        .contact-icon:hover {
+
+        .contact-icon:hover,
+        .footer-icon:hover {
             color: #3b82f6;
             transform: scale(1.2);
         }
+
         .cta-btn {
-            background-color: #1d4ed8;
+            background-color: #02569B;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -113,94 +181,234 @@
             transition: background-color 0.3s ease, transform 0.3s ease;
             animation: float 3s ease-in-out infinite;
         }
+
         .cta-btn:hover {
-            background-color: #3b82f6;
+            background-color: #04C4B4;
             transform: scale(1.05);
         }
+
         .typewriter {
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            border-right: 2px solid #1d4ed8; /* Cursor effect */
+            border-right: 2px solid #02569B;
         }
+
         .typewriter.blink {
             animation: blink-caret 0.75s step-end infinite;
         }
+
         .subtitle {
-            color: #ffffff; /* White for subtitles */
+            color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             animation: float 3s ease-in-out infinite;
         }
+
         .project-subtitle {
-            font-size: 1.25rem; /* Larger subtitle for project cards (text-xl) */
+            font-size: 1.25rem;
         }
+
         .text-float {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             animation: float 3s ease-in-out infinite;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .close-btn:hover {
+            color: #3b82f6;
+        }
+
+        .progress-bar {
+            background-color: rgba(59, 130, 246, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress {
+            background-color: #02569B;
+            height: 100%;
+            transition: width 1s ease;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .header-img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .project-img {
+                height: 120px;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
         @keyframes blink-caret {
-            0%, 100% { border-color: transparent; }
-            50% { border-color: #1d4ed8; }
+
+            0%,
+            100% {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #02569B;
+            }
         }
+
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
+
         .animate-pulse {
             animation: pulse 2s infinite;
         }
+
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
+
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.05); }
-            70% { transform: scale(0.95); }
-            100% { transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
-<body class="min-h-screen pt-16"> <!-- pt-16 to avoid navbar overlap -->
+
+<body class="min-h-screen pt-16">
     <!-- Navigation Bar -->
-    <nav class="navbar flex justify-center space-x-4">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Work Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#education">Education</a>
-        <a href="#certifications">Certifications</a>
-        <a href="#contact">Contact</a>
+    <nav class="navbar flex justify-between items-center px-4">
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links space-x-4">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Work Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#certifications">Certifications</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
 
-    <!-- Animated Code Symbols Background -->
+    <!-- Animated Code Symbols and Binary Background -->
     <canvas id="bgCanvas"></canvas>
 
     <!-- Hero Section -->
     <header id="hero" class="text-white py-16 text-center" data-aos="fade-up" data-aos-delay="100">
         <div class="mx-auto max-w-2xl">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/1200px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg" alt="Abanoub El-Abani" class="header-img mx-auto animate__animated animate__zoomIn">
+            <img src="me.jpg" alt="Abanoub El-Abani" class="header-img mx-auto animate__animated animate__zoomIn">
             <h1 class="text-4xl font-bold text-float">Abanoub El-Abani</h1>
             <div id="typewriter" class="text-xl mt-2 typewriter"></div>
             <div class="mt-4 flex justify-center flex-wrap gap-6">
-                <a href="tel:01228531751" class="contact-icon text-2xl animate-pulse" title="Phone"><i class="fas fa-phone"></i></a>
-                <a href="mailto:apanouprizkalla@gmail.com" class="contact-icon text-2xl animate-pulse" title="Email"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/abanoub6" target="_blank" class="contact-icon text-2xl animate-pulse" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank" class="contact-icon text-2xl animate-pulse" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="tel:01228531751" class="contact-icon text-2xl animate-pulse" title="Phone"><i
+                        class="fas fa-phone"></i></a>
+                <a href="mailto:apanouprizkalla@gmail.com" class="contact-icon text-2xl animate-pulse" title="Email"><i
+                        class="fas fa-envelope"></i></a>
+                <a href="https://github.com/abanoub6" target="_blank" class="contact-icon text-2xl animate-pulse"
+                    title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank"
+                    class="contact-icon text-2xl animate-pulse" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </header>
 
     <!-- About Section -->
-    <section id="about" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+    <section id="about" class="py-16 max-w-5xl mx-auto px-4 mb-8 relative" data-aos="fade-up" data-aos-delay="200">
         <div class="flex justify-center">
             <h2 class="section-title">Hey, I’m Abanoub!</h2>
         </div>
-        <p class="text-gray-300 leading-relaxed text-float">
-            I’m a Flutter developer who loves creating fun and fast mobile apps for Android and iOS. I work with Dart, Firebase, and APIs to build apps that users love. I enjoy teaming up with others, learning new tech, and keeping my code clean and simple. Let’s create something cool together!
-        </p>
+        <div class="w-full">
+            <p class="text-gray-300 leading-relaxed text-float">
+                I’m a Flutter developer who loves creating fun and fast mobile apps for Android and iOS. I work with
+                Dart, Firebase, and APIs to build apps that users love. I enjoy teaming up with others, learning new
+                tech, and keeping my code clean and simple. Let’s create something cool together!
+            </p>
+        </div>
+        <!-- More About Me -->
+        <div class="mt-8">
+            <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>More About Me</h3>
+            <p class="text-gray-300 leading-relaxed text-float">
+                Beyond coding, I’m passionate about photography, capturing moments with my camera. I’m also a tech
+                enthusiast who enjoys exploring new frameworks and contributing to open-source projects. My love for
+                Flutter drives me to build apps that are both beautiful and functional.
+            </p>
+        </div>
     </section>
 
     <!-- Skills Section -->
@@ -208,25 +416,142 @@
         <div class="flex justify-center">
             <h2 class="section-title">What I Can Do</h2>
         </div>
-        <div class="flex flex-col md:flex-row md:space-x-6">
-            <div class="md:w-1/2">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div data-aos="fade-up" data-aos-delay="400">
                 <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Tech Stuff</h3>
-                <ul class="list-disc pl-5 text-gray-300 text-float">
-                    <li>Flutter & Dart for awesome apps</li>
-                    <li>Firebase & APIs for real-time magic</li>
-                    <li>BLoC & Provider for smooth app flow</li>
-                    <li>Git & GitHub to keep things organized</li>
-                    <li>Testing & Agile to deliver quality</li>
-                </ul>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="devicon-flutter-plain text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Flutter</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="devicon-dart-plain text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Dart</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="devicon-firebase-plain text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Firebase</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-code text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">BLoC</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-code text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Provider</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-server text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">REST APIs</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-database text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Hive</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="devicon-git-plain text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Git & GitHub</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="md:w-1/2 mt-4 md:mt-0">
-                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Other Skills</h3>
-                <ul class="list-disc pl-5 text-gray-300 text-float">
-                    <li>Thinking smart & solving problems</li>
-                    <li>Working great with teams</li>
-                    <li>Keeping things on track & on time</li>
-                    <li>Leading when needed</li>
-                </ul>
+            <div data-aos="fade-up" data-aos-delay="500">
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Soft Skills</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-brain text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Problem Solving</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-users text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Team Collaboration</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Time Management</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-comments text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Communication</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-sync-alt text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Adaptability</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie text-2xl mr-2"></i>
+                        <div class="flex-1">
+                            <p class="text-gray-300">Leadership</p>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -238,7 +563,8 @@
         </div>
         <div class="space-y-6">
             <div>
-                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Freelance Flutter Developer, ITIDA GIGs</h3>
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Freelance Flutter
+                    Developer, ITIDA GIGs</h3>
                 <p class="text-gray-400 italic text-float">Remote — Mar 2025 – Jun 2025</p>
                 <ul class="list-disc pl-5 text-gray-300 text-float">
                     <li>Took a 3-month freelancing program to build real Flutter apps.</li>
@@ -247,7 +573,8 @@
                 </ul>
             </div>
             <div>
-                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Mobile App Intern, DEPI</h3>
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Mobile App Intern, DEPI
+                </h3>
                 <p class="text-gray-400 italic text-float">Hybrid — Aug 2024 – Feb 2025</p>
                 <ul class="list-disc pl-5 text-gray-300 text-float">
                     <li>Built business apps with Flutter and Firebase to make work easier.</li>
@@ -264,18 +591,62 @@
             <h2 class="section-title">Check Out My Projects!</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-4">
-            <a href="https://github.com/abanoub6/to-do-list-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+            <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
+                data-modal="todo-modal">
+                <img src="" alt="To-Do List App" class="project-img">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">To-Do List App</h3>
-                <p class="text-gray-300">A simple app to manage tasks with Firebase sync.</p>
-            </a>
-            <a href="https://github.com/abanoub6/news-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+                <ul class="list-disc pl-5 text-gray-300">
+                    <li>Built with Flutter and Firebase for real-time task syncing.</li>
+                    <li>Implemented BLoC for efficient state management.</li>
+                    <li>User-friendly UI with dark/light mode toggle.</li>
+                </ul>
+            </div>
+            <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
+                data-modal="news-modal">
+                <img src="">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">News App</h3>
-                <p class="text-gray-300">Fetches live news with a sleek UI.</p>
-            </a>
-            <a href="https://github.com/abanoub6/e-commerce-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+                <ul class="list-disc pl-5 text-gray-300">
+                    <li>Integrated News API for real-time article fetching.</li>
+                    <li>Designed sleek UI with Flutter animations.</li>
+                    <li>Added offline caching with Hive database.</li>
+                </ul>
+            </div>
+            <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
+                data-modal="ecommerce-modal">
+                <img src="=">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">E-Commerce App</h3>
-                <p class="text-gray-300">Shopping app with cart and favorites.</p>
-            </a>
+                <ul class="list-disc pl-5 text-gray-300">
+                    <li>Developed with Flutter and Provider for state management.</li>
+                    <li>Integrated cart, favorites, and payment gateway.</li>
+                    <li>Responsive design for seamless user experience.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Modals for Project Details -->
+        <div id="todo-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 class="text-xl font-semibold">To-Do List App</h3>
+                <p class="text-gray-300 mt-2">A task management app with real-time Firebase syncing, BLoC state
+                    management, and a clean UI. Supports dark/light mode and push notifications. (Replace with your
+                    detailed description)</p>
+            </div>
+        </div>
+        <div id="news-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 class="text-xl font-semibold">News App</h3>
+                <p class="text-gray-300 mt-2">Fetches live news via News API with a sleek Flutter UI. Features offline
+                    caching with Hive and smooth animations. (Replace with your detailed description)</p>
+            </div>
+        </div>
+        <div id="ecommerce-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 class="text-xl font-semibold">E-Commerce App</h3>
+                <p class="text-gray-300 mt-2">A shopping app with cart, favorites, and payment integration. Built with
+                    Flutter and Provider for a responsive user experience. (Replace with your detailed description)</p>
+            </div>
         </div>
     </section>
 
@@ -284,8 +655,14 @@
         <div class="flex justify-center">
             <h2 class="section-title">My Studies</h2>
         </div>
-        <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>B.Sc. in Computer Sciences</h3>
-        <p class="text-gray-400 text-float">Assiut National University, Egypt — Graduating July 2026</p>
+        <div class="flex items-center">
+            <i class="fas fa-graduation-cap text-2xl mr-2"></i>
+            <div>
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>B.Sc. in Computer Sciences
+                </h3>
+                <p class="text-gray-400 text-float">Assiut National University, Egypt — Graduating July 2026</p>
+            </div>
+        </div>
     </section>
 
     <!-- Certifications Section -->
@@ -294,8 +671,18 @@
             <h2 class="section-title">My Certificates</h2>
         </div>
         <ul class="list-disc pl-5 text-gray-300 text-float">
-            <li><span class="subtitle-dot"></span><strong>Flutter Development Track</strong>, Route Academy (120 hours) — Apr 2024<br>Learned Dart, Flutter UI, APIs, and Firebase.</li>
-            <li><span class="subtitle-dot"></span><strong>Flutter App Development</strong>, Digital Egypt Pioneers (120 hours) — Feb 2025<br>Built full Flutter apps with best practices.</li>
+            <li class="flex items-start">
+                <div>
+                    <span class="subtitle-dot"></span><strong>Flutter Development Track</strong>, Route Academy (120
+                    hours) — Apr 2024<br>Learned Dart, Flutter UI, APIs, and Firebase.
+                </div>
+            </li>
+            <li class="flex items-start">
+                <div>
+                    <span class="subtitle-dot"></span><strong>Flutter App Development</strong>, Digital Egypt Pioneers
+                    (120 hours) — Feb 2025<br>Built full Flutter apps with best practices.
+                </div>
+            </li>
         </ul>
     </section>
 
@@ -305,9 +692,21 @@
             <h2 class="section-title">Let’s Chat!</h2>
         </div>
         <p class="text-gray-300 mb-4 text-center text-float">Got a cool app idea? Hit me up!</p>
-        <div class="flex justify-center flex-wrap gap-3">
-            <a href="mailto:apanouprizkalla@gmail.com" class="cta-btn animate-pulse">Send a Message</a>
-            <a href="assets/Abanoub al-Abani.pdf" download="Abanoub al-Abani.pdf" class="cta-btn animate-pulse">Download Resume</a>
+        <div class="max-w-md mx-auto">
+            <div class="space-y-4">
+                <input type="text" id="name" placeholder="Your Name"
+                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
+                <input type="email" id="email" placeholder="Your Email"
+                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
+                <textarea id="message" placeholder="Your Message" rows="4"
+                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none"></textarea>
+                <button id="submit-contact" class="cta-btn w-full">Send Message</button>
+            </div>
+            <p id="form-message" class="text-gray-300 mt-2 text-center"></p>
+            <div class="flex justify-center mt-4">
+                <a href="assets/Abanoub al-Abani.pdf" download="Abanoub al-Abani.pdf" class="cta-btn">Download
+                    Resume</a>
+            </div>
         </div>
     </section>
 
@@ -315,55 +714,127 @@
     <footer class="text-white text-center py-6" data-aos="fade-up" data-aos-delay="900">
         <p class="text-float">&copy; 2025 Abanoub El-Abani. Made with 💙</p>
         <div class="mt-2 space-x-4 text-float">
-            <a href="https://github.com/abanoub6" target="_blank"><i class="fab fa-github text-xl hover:text-[#3b82f6]"></i></a>
-            <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank"><i class="fab fa-linkedin text-xl hover:text-[#3b82f6]"></i></a>
+            <a href="https://github.com/abanoub6" target="_blank" class="footer-icon"><i
+                    class="fab fa-github text-xl"></i></a>
+            <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank"
+                class="footer-icon"><i class="fab fa-linkedin text-xl"></i></a>
+            <!-- Replace with your WhatsApp link -->
+            <a href="https://wa.me/1234567890" target="_blank" class="footer-icon"><i
+                    class="fab fa-whatsapp text-xl"></i></a>
         </div>
-        <p class="text-xs mt-2 text-float">Image credit: <a href="https://commons.wikimedia.org/wiki/File:Lionel-Messi-Argentina-2022-FIFA-World-Cup_(cropped).jpg" target="_blank" class="underline">Wikimedia Commons</a></p>
+        <p class="text-xs mt-2 text-float">Image credit: Abanoub El-Abani (Personal Image)</p>
     </footer>
 
     <script>
+        // تهيئة EmailJS مع User ID
+        emailjs.init('UjaRt6V1yZ7EB3f0W');
+
         // Initialize AOS
         AOS.init({
             duration: 800,
             easing: 'ease-out',
-            once: false // Allow animation to repeat on scroll
+            once: false
         });
 
-        // Animated Code Symbols Background
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Animated Code Symbols and Binary Background
+        const bgCanvas = document.getElementById('bgCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
 
         const codeSymbols = ['{', '}', '(', ')', ';', '#', '<', '>', '=', '!'];
+        const binarySymbols = ['0', '1'];
         const symbolsArray = [];
+        const codeTrailArray = [];
+        const binaryArray = [];
         const numberOfSymbols = 30;
+        const numberOfBinary = 20;
+        let scrollY = 0;
 
+        // Code Symbol Class (Background Symbols)
         class CodeSymbol {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height; // Start at bottom
+                this.x = Math.random() * bgCanvas.width;
+                this.y = bgCanvas.height;
                 this.text = codeSymbols[Math.floor(Math.random() * codeSymbols.length)];
-                this.size = Math.random() * 12 + 10; // Font size between 10-22px
-                this.speedY = -(Math.random() * 1 + 0.5); // Slow upward movement
+                this.size = Math.random() * 12 + 10;
+                this.speedY = -(Math.random() * 1 + 0.5);
                 this.opacity = 1;
+                this.baseY = this.y;
             }
             update() {
-                this.y += this.speedY;
-                this.opacity -= 0.002; // Gradual fade-out
+                this.y = this.baseY + scrollY * 0.2;
+                this.opacity -= 0.002;
                 if (this.opacity <= 0 || this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
+                    this.y = bgCanvas.height + scrollY * 0.2;
+                    this.baseY = bgCanvas.height;
+                    this.x = Math.random() * bgCanvas.width;
                     this.opacity = 1;
                     this.text = codeSymbols[Math.floor(Math.random() * codeSymbols.length)];
                 }
             }
             draw() {
-                ctx.font = `${this.size}px monospace`;
-                ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
-                ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
-                ctx.shadowBlur = 5;
-                ctx.fillText(this.text, this.x, this.y);
+                bgCtx.font = `${this.size}px monospace`;
+                bgCtx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+                bgCtx.shadowColor = 'rgba(59, 130, 246, 0.5)';
+                bgCtx.shadowBlur = 5;
+                bgCtx.fillText(this.text, this.x, this.y);
+            }
+        }
+
+        // Code Trail Class (Mouse Trail)
+        class CodeTrail {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.text = codeSymbols[Math.floor(Math.random() * codeSymbols.length)];
+                this.size = Math.random() * 10 + 8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = 1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.05;
+            }
+            draw() {
+                bgCtx.font = `${this.size}px monospace`;
+                bgCtx.fillStyle = `rgba(29, 78, 216, ${this.opacity})`;
+                bgCtx.shadowColor = 'rgba(29, 78, 216, 0.5)';
+                bgCtx.shadowBlur = 3;
+                bgCtx.fillText(this.text, this.x, this.y);
+            }
+        }
+
+        // Binary Symbol Class (Floating 0s and 1s across the website)
+        class BinarySymbol {
+            constructor() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.text = binarySymbols[Math.floor(Math.random() * binarySymbols.length)];
+                this.size = Math.random() * 12 + 8;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.002;
+                if (this.opacity <= 0 || this.x < 0 || this.x > bgCanvas.width || this.y < 0 || this.y > bgCanvas.height) {
+                    this.x = Math.random() * bgCanvas.width;
+                    this.y = Math.random() * bgCanvas.height;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                    this.text = binarySymbols[Math.floor(Math.random() * binarySymbols.length)];
+                }
+            }
+            draw() {
+                bgCtx.font = `${this.size}px monospace`;
+                bgCtx.fillStyle = `rgba(4, 196, 180, ${this.opacity})`;
+                bgCtx.shadowColor = 'rgba(4, 196, 180, 0.5)';
+                bgCtx.shadowBlur = 3;
+                bgCtx.fillText(this.text, this.x, this.y);
             }
         }
 
@@ -371,20 +842,42 @@
             for (let i = 0; i < numberOfSymbols; i++) {
                 symbolsArray.push(new CodeSymbol());
             }
+            for (let i = 0; i < numberOfBinary; i++) {
+                binaryArray.push(new BinarySymbol());
+            }
         }
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
             for (let i = 0; i < symbolsArray.length; i++) {
                 symbolsArray[i].update();
                 symbolsArray[i].draw();
             }
+            for (let i = codeTrailArray.length - 1; i >= 0; i--) {
+                codeTrailArray[i].update();
+                codeTrailArray[i].draw();
+                if (codeTrailArray[i].opacity <= 0) {
+                    codeTrailArray.splice(i, 1);
+                }
+            }
+            for (let i = 0; i < binaryArray.length; i++) {
+                binaryArray[i].update();
+                binaryArray[i].draw();
+            }
             requestAnimationFrame(animate);
         }
 
+        window.addEventListener('mousemove', (event) => {
+            codeTrailArray.push(new CodeTrail(event.clientX, event.clientY));
+        });
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+        });
+
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
         });
 
         init();
@@ -402,27 +895,23 @@
             typewriterElement.classList.add('blink');
 
             if (!isDeleting && charIndex < currentTitle.length) {
-                // Typing
                 typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
                 charIndex++;
-                setTimeout(typeWriter, 100); // Speed of typing each character
+                setTimeout(typeWriter, 100);
             } else if (isDeleting && charIndex >= 0) {
-                // Deleting
                 typewriterElement.textContent = currentTitle.substring(0, charIndex);
                 charIndex--;
-                setTimeout(typeWriter, 50); // Speed of deleting each character
+                setTimeout(typeWriter, 50);
             } else if (!isDeleting && charIndex === currentTitle.length) {
-                // Pause at full text
                 typewriterElement.classList.remove('blink');
                 setTimeout(() => {
                     isDeleting = true;
                     typeWriter();
-                }, 1500); // Pause before deleting
+                }, 1500);
             } else if (isDeleting && charIndex < 0) {
-                // Move to next title immediately
                 isDeleting = false;
                 titleIndex = (titleIndex + 1) % titles.length;
-                typeWriter(); // No delay before next title
+                typeWriter();
             }
         }
 
@@ -443,6 +932,92 @@
                 el.style.animationDelay = `${index * 0.2}s`;
             });
         });
+
+        // Navbar Active Link on Scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('.navbar a');
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 50 && window.scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Modal Functionality
+        const modals = document.querySelectorAll('.modal');
+        const projectCards = document.querySelectorAll('.card');
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const modalId = card.getAttribute('data-modal');
+                document.getElementById(modalId).style.display = 'flex';
+            });
+        });
+
+        modals.forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target.classList.contains('modal') || event.target.classList.contains('close-btn')) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Contact Form with EmailJS
+        const contactForm = document.getElementById('submit-contact');
+        const formMessage = document.getElementById('form-message');
+        contactForm.addEventListener('click', () => {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !message) {
+                formMessage.textContent = 'يرجى ملء جميع الحقول.';
+                formMessage.style.color = '#ef4444';
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                formMessage.textContent = 'يرجى إدخال بريد إلكتروني صالح.';
+                formMessage.style.color = '#ef4444';
+                return;
+            }
+
+            emailjs.send('service_qptawkf', 'template_lx00l8t', {
+                from_name: name,
+                from_email: email,
+                message: message
+            }).then(() => {
+                formMessage.textContent = 'تم إرسال الرسالة بنجاح!';
+                formMessage.style.color = '#04C4B4';
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+            }, (error) => {
+                formMessage.textContent = 'فشل إرسال الرسالة. حاول مرة أخرى لاحقًا.';
+                formMessage.style.color = '#ef4444';
+                console.error('EmailJS error:', error);
+            });
+        });
     </script>
 </body>
+
 </html>
