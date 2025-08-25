@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abanoub El-Abani - Flutter Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            background: #000; /* Black background for code symbols */
+        }
+        canvas#bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+        }
+        .navbar a {
+            color: #ffffff; /* White text */
+            padding: 1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        .navbar a:hover {
+            color: #3b82f6; /* Light blue on hover */
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1d4ed8;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+        .section-title:hover {
+            color: #2563eb;
+            transform: translateY(-2px);
+        }
+        .subtitle-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #1d4ed8;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.5);
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        .card {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 2px solid #3b82f6;
+            border-radius: 20px 10px;
+            padding: 2rem; /* Larger padding */
+            min-height: 200px; /* Larger cards */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .header-img {
+            border: 4px solid #1d4ed8;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+        .contact-icon {
+            color: #ffffff;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .contact-icon:hover {
+            color: #3b82f6;
+            transform: scale(1.2);
+        }
+        .cta-btn {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+        .cta-btn:hover {
+            background-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #1d4ed8; /* Cursor effect */
+        }
+        .typewriter.blink {
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        .subtitle {
+            color: #ffffff; /* White for subtitles */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+        .project-subtitle {
+            font-size: 1.25rem; /* Larger subtitle for project cards (text-xl) */
+        }
+        .text-float {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes blink-caret {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #1d4ed8; }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen pt-16"> <!-- pt-16 to avoid navbar overlap -->
+    <!-- Navigation Bar -->
+    <nav class="navbar flex justify-center space-x-4">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Work Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Animated Code Symbols Background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Hero Section -->
+    <header id="hero" class="text-white py-16 text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="mx-auto max-w-2xl">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/1200px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg" alt="Abanoub El-Abani" class="header-img mx-auto animate__animated animate__zoomIn">
+            <h1 class="text-4xl font-bold text-float">Abanoub El-Abani</h1>
+            <div id="typewriter" class="text-xl mt-2 typewriter"></div>
+            <div class="mt-4 flex justify-center flex-wrap gap-6">
+                <a href="tel:01228531751" class="contact-icon text-2xl animate-pulse" title="Phone"><i class="fas fa-phone"></i></a>
+                <a href="mailto:apanouprizkalla@gmail.com" class="contact-icon text-2xl animate-pulse" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/abanoub6" target="_blank" class="contact-icon text-2xl animate-pulse" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank" class="contact-icon text-2xl animate-pulse" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex justify-center">
+            <h2 class="section-title">Hey, I’m Abanoub!</h2>
+        </div>
+        <p class="text-gray-300 leading-relaxed text-float">
+            I’m a Flutter developer who loves creating fun and fast mobile apps for Android and iOS. I work with Dart, Firebase, and APIs to build apps that users love. I enjoy teaming up with others, learning new tech, and keeping my code clean and simple. Let’s create something cool together!
+        </p>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+        <div class="flex justify-center">
+            <h2 class="section-title">What I Can Do</h2>
+        </div>
+        <div class="flex flex-col md:flex-row md:space-x-6">
+            <div class="md:w-1/2">
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Tech Stuff</h3>
+                <ul class="list-disc pl-5 text-gray-300 text-float">
+                    <li>Flutter & Dart for awesome apps</li>
+                    <li>Firebase & APIs for real-time magic</li>
+                    <li>BLoC & Provider for smooth app flow</li>
+                    <li>Git & GitHub to keep things organized</li>
+                    <li>Testing & Agile to deliver quality</li>
+                </ul>
+            </div>
+            <div class="md:w-1/2 mt-4 md:mt-0">
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Other Skills</h3>
+                <ul class="list-disc pl-5 text-gray-300 text-float">
+                    <li>Thinking smart & solving problems</li>
+                    <li>Working great with teams</li>
+                    <li>Keeping things on track & on time</li>
+                    <li>Leading when needed</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section id="experience" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="400">
+        <div class="flex justify-center">
+            <h2 class="section-title">My Work Adventures</h2>
+        </div>
+        <div class="space-y-6">
+            <div>
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Freelance Flutter Developer, ITIDA GIGs</h3>
+                <p class="text-gray-400 italic text-float">Remote — Mar 2025 – Jun 2025</p>
+                <ul class="list-disc pl-5 text-gray-300 text-float">
+                    <li>Took a 3-month freelancing program to build real Flutter apps.</li>
+                    <li>Made cross-platform apps that clients loved.</li>
+                    <li>Landed my first project with APIs and Firebase for live features.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>Mobile App Intern, DEPI</h3>
+                <p class="text-gray-400 italic text-float">Hybrid — Aug 2024 – Feb 2025</p>
+                <ul class="list-disc pl-5 text-gray-300 text-float">
+                    <li>Built business apps with Flutter and Firebase to make work easier.</li>
+                    <li>Teamed up with Agile groups for real projects.</li>
+                    <li>Used BLoC and optimized Firebase for fast, scalable apps.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="500">
+        <div class="flex justify-center">
+            <h2 class="section-title">Check Out My Projects!</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+            <a href="https://github.com/abanoub6/to-do-list-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+                <h3 class="font-semibold text-xl subtitle project-subtitle">To-Do List App</h3>
+                <p class="text-gray-300">A simple app to manage tasks with Firebase sync.</p>
+            </a>
+            <a href="https://github.com/abanoub6/news-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+                <h3 class="font-semibold text-xl subtitle project-subtitle">News App</h3>
+                <p class="text-gray-300">Fetches live news with a sleek UI.</p>
+            </a>
+            <a href="https://github.com/abanoub6/e-commerce-app" target="_blank" class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5">
+                <h3 class="font-semibold text-xl subtitle project-subtitle">E-Commerce App</h3>
+                <p class="text-gray-300">Shopping app with cart and favorites.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="600">
+        <div class="flex justify-center">
+            <h2 class="section-title">My Studies</h2>
+        </div>
+        <h3 class="font-semibold text-lg subtitle"><span class="subtitle-dot"></span>B.Sc. in Computer Sciences</h3>
+        <p class="text-gray-400 text-float">Assiut National University, Egypt — Graduating July 2026</p>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="700">
+        <div class="flex justify-center">
+            <h2 class="section-title">My Certificates</h2>
+        </div>
+        <ul class="list-disc pl-5 text-gray-300 text-float">
+            <li><span class="subtitle-dot"></span><strong>Flutter Development Track</strong>, Route Academy (120 hours) — Apr 2024<br>Learned Dart, Flutter UI, APIs, and Firebase.</li>
+            <li><span class="subtitle-dot"></span><strong>Flutter App Development</strong>, Digital Egypt Pioneers (120 hours) — Feb 2025<br>Built full Flutter apps with best practices.</li>
+        </ul>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="800">
+        <div class="flex justify-center">
+            <h2 class="section-title">Let’s Chat!</h2>
+        </div>
+        <p class="text-gray-300 mb-4 text-center text-float">Got a cool app idea? Hit me up!</p>
+        <div class="flex justify-center flex-wrap gap-3">
+            <a href="mailto:apanouprizkalla@gmail.com" class="cta-btn animate-pulse">Send a Message</a>
+            <a href="assets/Abanoub al-Abani.pdf" download class="cta-btn animate-pulse">Download Resume</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-white text-center py-6" data-aos="fade-up" data-aos-delay="900">
+        <p class="text-float">&copy; 2025 Abanoub El-Abani. Made with 💙</p>
+        <div class="mt-2 space-x-4 text-float">
+            <a href="https://github.com/abanoub6" target="_blank"><i class="fab fa-github text-xl hover:text-[#3b82f6]"></i></a>
+            <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank"><i class="fab fa-linkedin text-xl hover:text-[#3b82f6]"></i></a>
+        </div>
+        <p class="text-xs mt-2 text-float">Image credit: <a href="https://commons.wikimedia.org/wiki/File:Lionel-Messi-Argentina-2022-FIFA-World-Cup_(cropped).jpg" target="_blank" class="underline">Wikimedia Commons</a></p>
+    </footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: false // Allow animation to repeat on scroll
+        });
+
+        // Animated Code Symbols Background
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const codeSymbols = ['{', '}', '(', ')', ';', '#', '<', '>', '=', '!'];
+        const symbolsArray = [];
+        const numberOfSymbols = 30;
+
+        class CodeSymbol {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height; // Start at bottom
+                this.text = codeSymbols[Math.floor(Math.random() * codeSymbols.length)];
+                this.size = Math.random() * 12 + 10; // Font size between 10-22px
+                this.speedY = -(Math.random() * 1 + 0.5); // Slow upward movement
+                this.opacity = 1;
+            }
+            update() {
+                this.y += this.speedY;
+                this.opacity -= 0.002; // Gradual fade-out
+                if (this.opacity <= 0 || this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                    this.opacity = 1;
+                    this.text = codeSymbols[Math.floor(Math.random() * codeSymbols.length)];
+                }
+            }
+            draw() {
+                ctx.font = `${this.size}px monospace`;
+                ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+                ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
+                ctx.shadowBlur = 5;
+                ctx.fillText(this.text, this.x, this.y);
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfSymbols; i++) {
+                symbolsArray.push(new CodeSymbol());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < symbolsArray.length; i++) {
+                symbolsArray[i].update();
+                symbolsArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        init();
+        animate();
+
+        // Typewriter Effect for Titles
+        const titles = ['Software Engineer', 'Flutter Developer', 'Mobile App Developer', 'Tech Enthusiast'];
+        const typewriterElement = document.getElementById('typewriter');
+        let titleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            const currentTitle = titles[titleIndex];
+            typewriterElement.classList.add('blink');
+
+            if (!isDeleting && charIndex < currentTitle.length) {
+                // Typing
+                typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(typeWriter, 100); // Speed of typing each character
+            } else if (isDeleting && charIndex >= 0) {
+                // Deleting
+                typewriterElement.textContent = currentTitle.substring(0, charIndex);
+                charIndex--;
+                setTimeout(typeWriter, 50); // Speed of deleting each character
+            } else if (!isDeleting && charIndex === currentTitle.length) {
+                // Pause at full text
+                typewriterElement.classList.remove('blink');
+                setTimeout(() => {
+                    isDeleting = true;
+                    typeWriter();
+                }, 1500); // Pause before deleting
+            } else if (isDeleting && charIndex < 0) {
+                // Move to next title immediately
+                isDeleting = false;
+                titleIndex = (titleIndex + 1) % titles.length;
+                typeWriter(); // No delay before next title
+            }
+        }
+
+        typeWriter();
+
+        // Initialize Vanilla Tilt for project cards
+        VanillaTilt.init(document.querySelectorAll(".card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5
+        });
+
+        // Animation on load for hero section
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate__animated');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+</body>
+</html>
