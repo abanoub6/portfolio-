@@ -348,6 +348,77 @@
                 transform: scale(1);
             }
         }
+
+        body.light-mode {
+            background: #f3f4f6;
+            color: #222;
+        }
+
+        body.light-mode .navbar,
+        body.light-mode .modal-content,
+        body.light-mode .card {
+            background-color: #fff !important;
+            color: #222 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .navbar {
+            background-color: #fff !important;
+            color: #222 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .navbar a {
+            color: #02569B !important;
+        }
+
+        body.light-mode .navbar a:hover,
+        body.light-mode .navbar a.active {
+            color: #04C4B4 !important;
+        }
+
+        body.light-mode .contact-icon,
+        body.light-mode .footer-icon {
+            color: #02569B !important;
+        }
+
+        body.light-mode .contact-icon:hover,
+        body.light-mode .footer-icon:hover {
+            color: #04C4B4 !important;
+        }
+
+        body.light-mode .section-title,
+        body.light-mode .subtitle,
+        body.light-mode .project-subtitle,
+        body.light-mode .text-float,
+        body.light-mode .text-gray-300,
+        body.light-mode .text-white {
+            color: #02569B !important;
+            background: none !important;
+            box-shadow: none !important;
+        }
+
+        body.light-mode .text-gray-400 {
+            color: #444 !important;
+        }
+
+        body.light-mode .card,
+        body.light-mode .modal-content {
+            background-color: #fff !important;
+            color: #222 !important;
+        }
+
+        body.light-mode .cta-btn {
+            background-color: #02569B !important;
+            color: #fff !important;
+        }
+
+        body.light-mode input,
+        body.light-mode textarea {
+            background: #fff !important;
+            color: #222 !important;
+            border-color: #02569B !important;
+        }
     </style>
 </head>
 
@@ -364,6 +435,9 @@
             <a href="#certifications">Certifications</a>
             <a href="#contact">Contact</a>
         </div>
+        <button id="theme-toggle" class="cta-btn ml-4" title="Toggle Dark/Light Mode">
+            <i id="theme-icon" class="fas fa-moon"></i>
+        </button>
     </nav>
 
     <!-- Animated Code Symbols and Binary Background -->
@@ -1013,6 +1087,39 @@
                 formMessage.style.color = '#ef4444';
                 console.error('EmailJS error:', error);
             });
+        });
+
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        function setTheme(mode) {
+            if (mode === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('light-mode')) {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        });
+        // Load theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                setTheme('light');
+            } else {
+                setTheme('dark'); // dark is default
+            }
         });
     </script>
 </body>
