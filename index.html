@@ -12,8 +12,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css" rel="stylesheet">
-    <!-- إضافة مكتبة EmailJS -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <style>
         html {
             scroll-behavior: smooth;
@@ -669,7 +667,8 @@
         <div class="grid md:grid-cols-3 gap-4">
             <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
                 data-modal="todo-modal">
-                <img src="" alt="To-Do List App" class="project-img">
+                <img src="https://images.unsplash.com/photo-1611162617210-7d673e9b7467?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+                    alt="To-Do List App" class="project-img">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">To-Do List App</h3>
                 <ul class="list-disc pl-5 text-gray-300">
                     <li>Built with Flutter and Firebase for real-time task syncing.</li>
@@ -679,7 +678,8 @@
             </div>
             <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
                 data-modal="news-modal">
-                <img src="" alt="News App" class="project-img">
+                <img src="https://images.unsplash.com/photo-1504711434969-e26cc811cef2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+                    alt="News App" class="project-img">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">News App</h3>
                 <ul class="list-disc pl-5 text-gray-300">
                     <li>Integrated News API for real-time article fetching.</li>
@@ -766,15 +766,17 @@
         </div>
         <p class="text-gray-300 mb-4 text-center text-float">Got a cool app idea? Hit me up!</p>
         <div class="max-w-md mx-auto">
-            <div class="space-y-4">
-                <input type="text" id="name" placeholder="Your Name"
-                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
-                <input type="email" id="email" placeholder="Your Email"
-                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
-                <textarea id="message" placeholder="Your Message" rows="4"
-                    class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none"></textarea>
-                <button id="submit-contact" class="cta-btn w-full">Send Message</button>
-            </div>
+            <form id="contact-form" action="https://formspree.io/f/xnnbqvld" method="POST">
+                <div class="space-y-4">
+                    <input type="text" id="name" name="name" placeholder="Your Name"
+                        class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
+                    <input type="email" id="email" name="email" placeholder="Your Email"
+                        class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none">
+                    <textarea id="message" name="message" placeholder="Your Message" rows="4"
+                        class="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:border-[#02569B] outline-none"></textarea>
+                    <button type="submit" id="submit-contact" class="cta-btn w-full">Send Message</button>
+                </div>
+            </form>
             <p id="form-message" class="text-gray-300 mt-2 text-center"></p>
             <div class="flex justify-center mt-4">
                 <a href="cv.pdf" download="Abanoub_Al_Abani.pdf" class="cta-btn">Download Resume</a>
@@ -795,8 +797,6 @@
         <p class="text-xs mt-2 text-float">Image credit: Abanoub El-Abani (Personal Image)</p>
     </footer>
     <script>
-        // تهيئة EmailJS مع User ID
-        emailjs.init('UjaRt6V1yZ7EB3f0W');
         // Initialize AOS
         AOS.init({
             duration: 800,
@@ -1024,10 +1024,11 @@
                 }
             });
         });
-        // Contact Form with EmailJS
-        const contactForm = document.getElementById('submit-contact');
+        // Contact Form with Formspree
+        const contactForm = document.getElementById('contact-form');
         const formMessage = document.getElementById('form-message');
-        contactForm.addEventListener('click', () => {
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
@@ -1041,21 +1042,30 @@
                 formMessage.style.color = '#ef4444';
                 return;
             }
-            emailjs.send('service_qptawkf', 'template_lx00l8t', {
-                from_name: name,
-                from_email: email,
-                message: message
-            }).then(() => {
-                formMessage.textContent = 'تم إرسال الرسالة بنجاح!';
-                formMessage.style.color = '#04C4B4';
-                document.getElementById('name').value = '';
-                document.getElementById('email').value = '';
-                document.getElementById('message').value = '';
-            }, (error) => {
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, message })
+                });
+                if (response.ok) {
+                    formMessage.textContent = 'تم إرسال الرسالة بنجاح!';
+                    formMessage.style.color = '#04C4B4';
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('message').value = '';
+                } else {
+                    formMessage.textContent = 'فشل إرسال الرسالة. حاول مرة أخرى لاحقًا.';
+                    formMessage.style.color = '#ef4444';
+                }
+            } catch (error) {
                 formMessage.textContent = 'فشل إرسال الرسالة. حاول مرة أخرى لاحقًا.';
                 formMessage.style.color = '#ef4444';
-                console.error('EmailJS error:', error);
-            });
+                console.error('Formspree error:', error);
+            }
         });
         // Dark/Light Mode Toggle
         const themeToggle = document.getElementById('theme-toggle');
@@ -1065,12 +1075,10 @@
                 document.body.classList.add('light-mode');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'light');
             } else {
                 document.body.classList.remove('light-mode');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'dark');
             }
         }
         themeToggle.addEventListener('click', () => {
@@ -1080,14 +1088,9 @@
                 setTheme('light');
             }
         });
-        // Load theme on page load
+        // Always set Dark Theme on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                setTheme('light');
-            } else {
-                setTheme('dark'); // dark is default
-            }
+            setTheme('dark'); // Always default to dark theme
         });
     </script>
 </body>
