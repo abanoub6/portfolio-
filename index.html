@@ -419,6 +419,18 @@
             color: #222 !important;
             border-color: #02569B !important;
         }
+
+        /* Make Skills and Education icons white in dark mode */
+        #skills i,
+        #education i {
+            color: #ffffff !important;
+        }
+
+        /* Make Skills and Education icons blue in light mode */
+        body.light-mode #skills i,
+        body.light-mode #education i {
+            color: #02569B !important;
+        }
     </style>
 </head>
 
@@ -439,10 +451,8 @@
             <i id="theme-icon" class="fas fa-moon"></i>
         </button>
     </nav>
-
     <!-- Animated Code Symbols and Binary Background -->
     <canvas id="bgCanvas"></canvas>
-
     <!-- Hero Section -->
     <header id="hero" class="text-white py-16 text-center" data-aos="fade-up" data-aos-delay="100">
         <div class="mx-auto max-w-2xl">
@@ -465,7 +475,6 @@
             </div>
         </div>
     </header>
-
     <!-- About Section -->
     <section id="about" class="py-16 max-w-5xl mx-auto px-4 mb-8 relative" data-aos="fade-up" data-aos-delay="200">
         <div class="flex justify-center">
@@ -475,13 +484,11 @@
             <p class="text-gray-300 leading-relaxed text-float">
                 a passionate Software Engineer with a strong focus on mobile development using Flutter. I don't just
                 build apps I build complete, scalable solutions with clean code, smart architecture, and user-friendly
-                design.
-                Always open to exciting opportunities and collaborations.
+                design. Always open to exciting opportunities and collaborations.
                 Let’s build something great together🚀
             </p>
         </div>
     </section>
-
     <!-- Skills Section -->
     <section id="skills" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
         <div class="flex justify-center">
@@ -626,7 +633,6 @@
             </div>
         </div>
     </section>
-
     <!-- Work Experience Section -->
     <section id="experience" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="400">
         <div class="flex justify-center">
@@ -655,7 +661,6 @@
             </div>
         </div>
     </section>
-
     <!-- Projects Section -->
     <section id="projects" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="500">
         <div class="flex justify-center">
@@ -674,7 +679,7 @@
             </div>
             <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
                 data-modal="news-modal">
-                <img src="">
+                <img src="" alt="News App" class="project-img">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">News App</h3>
                 <ul class="list-disc pl-5 text-gray-300">
                     <li>Integrated News API for real-time article fetching.</li>
@@ -684,7 +689,7 @@
             </div>
             <div class="card" data-tilt data-tilt-max="10" data-tilt-glare="true" data-tilt-max-glare="0.5"
                 data-modal="ecommerce-modal">
-                <img src="=">
+                <img src="" alt="E-Commerce App" class="project-img">
                 <h3 class="font-semibold text-xl subtitle project-subtitle">E-Commerce App</h3>
                 <ul class="list-disc pl-5 text-gray-300">
                     <li>Developed with Flutter and Provider for state management.</li>
@@ -720,7 +725,6 @@
             </div>
         </div>
     </section>
-
     <!-- Education Section -->
     <section id="education" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="600">
         <div class="flex justify-center">
@@ -735,7 +739,6 @@
             </div>
         </div>
     </section>
-
     <!-- Certifications Section -->
     <section id="certifications" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="700">
         <div class="flex justify-center">
@@ -756,7 +759,6 @@
             </li>
         </ul>
     </section>
-
     <!-- Contact Section -->
     <section id="contact" class="py-16 max-w-5xl mx-auto px-4 mb-8" data-aos="fade-up" data-aos-delay="800">
         <div class="flex justify-center">
@@ -775,12 +777,10 @@
             </div>
             <p id="form-message" class="text-gray-300 mt-2 text-center"></p>
             <div class="flex justify-center mt-4">
-                <a href="cv.pdf" download="Abanoub_Al_Abani.pdf" class="cta-btn">Download
-                    Resume</a>
+                <a href="cv.pdf" download="Abanoub_Al_Abani.pdf" class="cta-btn">Download Resume</a>
             </div>
         </div>
     </section>
-
     <!-- Footer -->
     <footer class="text-white text-center py-6" data-aos="fade-up" data-aos-delay="900">
         <p class="text-float">&copy; 2025 Abanoub El-Abani. Made with 💙</p>
@@ -789,30 +789,25 @@
                     class="fab fa-github text-xl"></i></a>
             <a href="https://www.linkedin.com/in/abanoub-al-abani-zarief-44928b29a" target="_blank"
                 class="footer-icon"><i class="fab fa-linkedin text-xl"></i></a>
-            <!-- Replace with your WhatsApp link -->
             <a href="https://wa.me/201228531751" target="_blank" class="footer-icon"><i
                     class="fab fa-whatsapp text-xl"></i></a>
         </div>
         <p class="text-xs mt-2 text-float">Image credit: Abanoub El-Abani (Personal Image)</p>
     </footer>
-
     <script>
         // تهيئة EmailJS مع User ID
-        emailjs.init('-XKjaudLdZFMmtE4R');
-
+        emailjs.init('UjaRt6V1yZ7EB3f0W');
         // Initialize AOS
         AOS.init({
             duration: 800,
             easing: 'ease-out',
             once: false
         });
-
         // Animated Code Symbols and Binary Background
         const bgCanvas = document.getElementById('bgCanvas');
         const bgCtx = bgCanvas.getContext('2d');
         bgCanvas.width = window.innerWidth;
         bgCanvas.height = window.innerHeight;
-
         const codeSymbols = ['{', '}', '(', ')', ';', '#', '<', '>', '=', '!'];
         const binarySymbols = ['0', '1'];
         const symbolsArray = [];
@@ -821,7 +816,6 @@
         const numberOfSymbols = 30;
         const numberOfBinary = 20;
         let scrollY = 0;
-
         // Code Symbol Class (Background Symbols)
         class CodeSymbol {
             constructor() {
@@ -852,7 +846,6 @@
                 bgCtx.fillText(this.text, this.x, this.y);
             }
         }
-
         // Code Trail Class (Mouse Trail)
         class CodeTrail {
             constructor(x, y) {
@@ -877,7 +870,6 @@
                 bgCtx.fillText(this.text, this.x, this.y);
             }
         }
-
         // Binary Symbol Class (Floating 0s and 1s across the website)
         class BinarySymbol {
             constructor() {
@@ -908,7 +900,6 @@
                 bgCtx.fillText(this.text, this.x, this.y);
             }
         }
-
         function init() {
             for (let i = 0; i < numberOfSymbols; i++) {
                 symbolsArray.push(new CodeSymbol());
@@ -917,7 +908,6 @@
                 binaryArray.push(new BinarySymbol());
             }
         }
-
         function animate() {
             bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
             for (let i = 0; i < symbolsArray.length; i++) {
@@ -937,34 +927,27 @@
             }
             requestAnimationFrame(animate);
         }
-
         window.addEventListener('mousemove', (event) => {
             codeTrailArray.push(new CodeTrail(event.clientX, event.clientY));
         });
-
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
         });
-
         window.addEventListener('resize', () => {
             bgCanvas.width = window.innerWidth;
             bgCanvas.height = window.innerHeight;
         });
-
         init();
         animate();
-
         // Typewriter Effect for Titles
         const titles = ['Software Engineer', 'Flutter Developer', 'Mobile App Developer', 'Tech Enthusiast'];
         const typewriterElement = document.getElementById('typewriter');
         let titleIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-
         function typeWriter() {
             const currentTitle = titles[titleIndex];
             typewriterElement.classList.add('blink');
-
             if (!isDeleting && charIndex < currentTitle.length) {
                 typewriterElement.textContent = currentTitle.substring(0, charIndex + 1);
                 charIndex++;
@@ -985,9 +968,7 @@
                 typeWriter();
             }
         }
-
         typeWriter();
-
         // Initialize Vanilla Tilt for project cards
         VanillaTilt.init(document.querySelectorAll(".card"), {
             max: 15,
@@ -995,7 +976,6 @@
             glare: true,
             "max-glare": 0.5
         });
-
         // Animation on load for hero section
         document.addEventListener('DOMContentLoaded', () => {
             const elements = document.querySelectorAll('.animate__animated');
@@ -1003,13 +983,11 @@
                 el.style.animationDelay = `${index * 0.2}s`;
             });
         });
-
         // Navbar Active Link on Scroll
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section, header');
             const navLinks = document.querySelectorAll('.navbar a');
             let currentSection = '';
-
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
@@ -1017,7 +995,6 @@
                     currentSection = section.getAttribute('id');
                 }
             });
-
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').substring(1) === currentSection) {
@@ -1025,25 +1002,21 @@
                 }
             });
         });
-
         // Hamburger Menu Toggle
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
-
         // Modal Functionality
         const modals = document.querySelectorAll('.modal');
         const projectCards = document.querySelectorAll('.card');
-
         projectCards.forEach(card => {
             card.addEventListener('click', () => {
                 const modalId = card.getAttribute('data-modal');
                 document.getElementById(modalId).style.display = 'flex';
             });
         });
-
         modals.forEach(modal => {
             modal.addEventListener('click', (event) => {
                 if (event.target.classList.contains('modal') || event.target.classList.contains('close-btn')) {
@@ -1051,7 +1024,6 @@
                 }
             });
         });
-
         // Contact Form with EmailJS
         const contactForm = document.getElementById('submit-contact');
         const formMessage = document.getElementById('form-message');
@@ -1059,19 +1031,16 @@
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
-
             if (!name || !email || !message) {
                 formMessage.textContent = 'يرجى ملء جميع الحقول.';
                 formMessage.style.color = '#ef4444';
                 return;
             }
-
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 formMessage.textContent = 'يرجى إدخال بريد إلكتروني صالح.';
                 formMessage.style.color = '#ef4444';
                 return;
             }
-
             emailjs.send('service_qptawkf', 'template_lx00l8t', {
                 from_name: name,
                 from_email: email,
@@ -1088,7 +1057,6 @@
                 console.error('EmailJS error:', error);
             });
         });
-
         // Dark/Light Mode Toggle
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
